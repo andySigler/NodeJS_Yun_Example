@@ -2,9 +2,7 @@
 
 Example code for running a NodeJS on the Arduino Yun. See [andysigler.com/nodejs_yun](http://www.andysigler.com/nodejs_yun) for how to install NodeJS on the Yun, and set the board up to be used with Bridge.
 
-For this example, I used an RGB led plugged into digital pins 3-6. Ground in pin 4.
-
-Once running and an LED is connected, point a browser to you're Yun's IP address at port 8000. Clicking the screen will cause the LED to change color, and then to set the screen's background color.
+The example runs an HTTP server on the Yun at port 8000. The webpage it serves will send a websocket message to the server when the mouse is clicked. This will turn the RGB LED to a random color, and send that color back to webpage to be dispayed.
 
 ##Install
 
