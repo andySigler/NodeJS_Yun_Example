@@ -1,10 +1,12 @@
 #NodeJS and Yun
 
-Example code for running a NodeJS on the Arduino Yun. See [andysigler.com/nodejs_yun](http://www.andysigler.com/nodejs_yun) for how to install NodeJS on the Yun, and set the board up to be used with Bridge.
+Example code for running a NodeJS on the Arduino Yun.
 
 The example runs an HTTP server on the Yun at port 8000. The webpage it serves will send a websocket message to the server when the mouse is clicked. This will turn the RGB LED to a random color, and send that color back to webpage to be dispayed.
 
 ##Install
+
+See [andysigler.com/nodejs_yun](http://www.andysigler.com/nodejs_yun) for how to install NodeJS on the Yun, and set the board up to be used with Bridge.
 
 ###Arduino
 
