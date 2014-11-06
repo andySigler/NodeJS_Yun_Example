@@ -18,12 +18,12 @@ Upload the code rgb_arduino sketch to the board. If using the Yun, be sure to us
 
 Inside app.js, be sure serialport is using the corrent port name to connect to. These can be different depending on the computer, but the Yun always uses port "/dev/ttyATH0".
 
-#####Laptop
+#####On a Laptop
 
 npm install
 node app.js
 
-#####Yun
+#####On the Yun
 
 When running, place only app.js and index.html on the Yun. All other files are not needed, since node-modules are installed globally on the Yun.
 
