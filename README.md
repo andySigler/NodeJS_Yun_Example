@@ -8,6 +8,12 @@ Once running and an LED is connected, point a browser to you're Yun's IP address
 
 ##Install
 
+###Arduino
+
+For this example, I used an RGB led plugged into digital pins 3-6. Ground in pin 4, red is pin 3, green is pin 5, and blue is pin 6.
+
+Upload the code rgb_arduino sketch to the board. If using the Yun, be sure to use Serial1 instead of Serial.
+
 ###NodeJS
 
 Inside app.js, be sure serialport is using the corrent port name to connect to. These can be different depending on the computer, but the Yun always uses port "/dev/ttyATH0".
