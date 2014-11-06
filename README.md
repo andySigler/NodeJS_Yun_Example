@@ -20,8 +20,8 @@ Inside app.js, be sure serialport is using the corrent port name to connect to. 
 
 #####On a Laptop
 
-npm install
-node app.js
+	npm install
+	node app.js
 
 #####On the Yun
 
@@ -29,5 +29,5 @@ When running, place only app.js and index.html on the Yun. All other files are n
 
 Be sure have installed the following modules using the Yun's package manager:
 
-opkg install node-ws
-opkg install node-serialport
+	opkg install node-ws
+	opkg install node-serialport
