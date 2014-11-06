@@ -6,7 +6,7 @@ The example runs an HTTP server on the Yun at port 8000. The webpage it serves w
 
 ##Install
 
-See [andysigler.com/nodejs_yun](http://www.andysigler.com/nodejs_yun) for how to install NodeJS on the Yun, and set the board up to be used without Arduino's Bridge libary.
+See [THIS TUTORIAL](http://www.andysigler.com/nodejs_yun) for how to install NodeJS on the Yun, and set the board up to be used without Arduino's Bridge libary.
 
 ###Arduino
 
