@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head></head>
+	<body style="background-color:black">
+		<script type="text/javascript">
+
+			// this event fires when the entire page is finished loading
+			window.onload = function(){
+
+				// ws:// means it is a WebSocket connection
+				// location.host gives us our server's IP and port number as a string
+				var serverAddress = 'ws://'+location.host;
+
+				// create our socket from the WebSocket class
+				var socket = new WebSocket(serverAddress);
+
+				// this event fires when we lose connection to the server
+				socket.onclose = function(){
+					console.log('socket closed!');
+				}
+
+				// this event fires when we successfully connect to the server
+				socket.onopen = function(){
+
+					console.log('socket open!');
+
+					// this event fires when we get a message from the server
+					// data is a local variable, which holds the message
+					socket.onmessage = function(msg){
+						var data = msg.data;
+						document.body.style.backgroundColor = 'rgb('+data+')';
+					}
+
+					// this event fires when we press our mouse down on the page
+					window.onmousedown = function(){
+						socket.send(1);
+					}
+
+					// this event fires when we release our mouse
+					window.onmouseup = function(){
+						socket.send(0);
+					}
+				}
+			};
+
+		</script>
+	</body>
+</html>

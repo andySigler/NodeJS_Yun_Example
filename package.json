@@ -1,0 +1,10 @@
+{
+  "name": "arduino_nodejs",
+  "description": "example",
+  "author": "andy sigler",
+  "dependencies": {
+    "ws": "*",
+    "serialport": "*"
+  },
+  "engine": "node >= 0.4.1"
+}
