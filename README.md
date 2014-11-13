@@ -18,14 +18,14 @@ Upload the code rgb_arduino sketch to the board. If using the Yun, be sure to us
 
 Inside app.js, be sure serialport is using the corrent port name to connect to. These can be different depending on the computer, but the Yun always uses port "/dev/ttyATH0".
 
-#####On a Laptop
+####On a Laptop
 
 	npm install
 	node app.js
 
 Upen and edit 'app.js' to change the 'myPortName' variable to be whatever port your Arduino is currently connected to;
 
-#####On the Yun
+####On the Yun
 
 Be sure have installed the following modules using the Yun's package manager:
 
