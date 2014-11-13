@@ -24,8 +24,10 @@ void setup() {
 void loop() {
   if(Serial.available()){
     
+    char inByte = Serial.read();
+    
     // mousedown event
-    if(Serial.read()=='1'){
+    if(inByte=='1'){
       
       // make a new color, and turn the LED on
       r = random(255);
@@ -38,7 +40,7 @@ void loop() {
     }
     
     // mouseup event
-    else{
+    else if(inByte=='0'){
       
       // send the color to the browser, then turn the LED off
       Serial.print(r);

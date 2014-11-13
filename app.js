@@ -84,44 +84,37 @@ var myPortName = '/dev/cu.usbmodem1421'; // for my laptop (different for everyon
 
 var myPort = undefined;
 
-serialport.list(function(error,ports){
-	for(var i=0;i<ports.length;i++){
-		console.log(ports[i].comName);
-		if(ports[i].comName===myPortName){
-			openSerialPort();
-			break;
-		}
-	}
+// .list doesn't work on the Yun :(
+// serialport.list(function(error,ports){
+// 	for(var i=0;i<ports.length;i++){
+// 		console.log(ports[i].comName);
+// 	}
+// });
+
+// create the port
+var myPort = new Port(myPortName,{
+	'baudrate':115200, // the Arduino's baud rate
+	'parser': serialport.parsers.readline('\r\n') // arduino ends messages with .println()
 });
 
-// if we found our port, open it and use it
-function openSerialPort(){
+// this event fires when the serial port opens
+myPort.on('open',function(){
+	console.log('serial port is OPEN');
+	myPort.isOpen = true; // our own little variable, to tell us the port opened
+});
 
-	// create the port
-	myPort = new Port(myPortName,{
-		'baudrate':115200, // the Arduino's baud rate
-		'parser': serialport.parsers.readline('\r\n') // arduino ends messages with .println()
-	});
+// this event fires when we get data from the arduino
+myPort.on('data',function(data){
 
-	// this event fires when the serial port opens
-	myPort.on('open',function(){
-		console.log('serial port is OPEN');
-		myPort.isOpen = true; // our own little variable, to tell us the port opened
-	});
-
-	// this event fires when we get data from the arduino
-	myPort.on('data',function(data){
-
-		// if we have a socket connection, send the message
-		if(browserSocket){
-			browserSocket.send(data);
-		}
-		// else, just print it out so we can see it
-		else{
-			console.log(data);
-		}
-	});
-}
+	// if we have a socket connection, send the message
+	if(browserSocket){
+		browserSocket.send(data);
+	}
+	// else, just print it out so we can see it
+	else{
+		console.log(data);
+	}
+});
 
 //////////////
 //////////////
