@@ -9,6 +9,9 @@ var fs = require('fs');
 // create the HTTP server to serve the file
 var my_HTTPServer = http.createServer(function(request,response){
 	fs.readFile(__dirname+'/index.html',function(error,my_HTML){
+		if(error){
+			my_HTML = JSON.stringify(error);
+		}
 		response.writeHead(200, {"Content-Type": "text/html"});
 		response.write(my_HTML);
 		response.end();
