@@ -1,15 +1,24 @@
+#include <Process.h>
+Process nodejs;
+
 // our global color variables
 int r = 0;
 int g = 0;
 int b = 0;
 
-// use Serial1 when using laptop
-// use Serial11 when using YUN
+// use Serial when using laptop
+// use Serial1 when using YUN
 
 void setup() {
-  Serial1.begin(115200);
+  Bridge.begin();
   
-  while(!Serial1){
+  nodejs.runShellCommand("node /mnt/sda1/arduino/node/app.js");
+  
+  Bridge.close();
+  
+  Serial.begin(115200);
+  
+  while(!Serial){
   }
   
   pinMode(3,OUTPUT); // red pin
@@ -21,10 +30,10 @@ void setup() {
 }
 
 void loop() {
-  if(Serial1.available()){
+  if(Serial.available()){
     
     // mousedown event
-    if(Serial1.read()=='1'){
+    if(Serial.read()=='1'){
       
       // make a new color, and turn the LED on
       r = random(255);
@@ -40,11 +49,11 @@ void loop() {
     else{
       
       // send the color to the browser, then turn the LED off
-      Serial1.print(r);
-      Serial1.print(',');
-      Serial1.print(g);
-      Serial1.print(',');
-      Serial1.println(b);
+      Serial.print(r);
+      Serial.print(',');
+      Serial.print(g);
+      Serial.print(',');
+      Serial.println(b);
       
       analogWrite(3,0);
       analogWrite(5,0);
