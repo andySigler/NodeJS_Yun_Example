@@ -1,6 +1,3 @@
-#include <Process.h>
-Process nodejs;
-
 // our global color variables
 int r = 0;
 int g = 0;
@@ -10,11 +7,6 @@ int b = 0;
 // use Serial1 when using YUN
 
 void setup() {
-  Bridge.begin();
-  
-  nodejs.runShellCommand("node /mnt/sda1/arduino/node/app.js");
-  
-  Bridge.close();
   
   Serial.begin(115200);
   
