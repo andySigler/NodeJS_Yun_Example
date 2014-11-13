@@ -8,7 +8,11 @@ var fs = require('fs');
 
 // create the HTTP server to serve the file
 var my_HTTPServer = http.createServer(function(request,response){
+
+	// when a browser sends a request, go get the index page, and respond with it
 	fs.readFile(__dirname+'/index.html',function(error,my_HTML){
+
+		// if there's an error reading the index page, send the error instead
 		if(error){
 			my_HTML = JSON.stringify(error);
 		}
@@ -17,6 +21,8 @@ var my_HTTPServer = http.createServer(function(request,response){
 		response.end();
 	});
 });
+
+// every server must listen on a port
 my_HTTPServer.listen(8000);
 
 console.log('HTTP server started on port 8000');
@@ -25,15 +31,16 @@ console.log('HTTP server started on port 8000');
 //////////////
 //////////////
 
+// load the websocket module
 var WebSocketServer = require('ws').Server;
 
+// have it listening along with our HTTP server
 var my_WebSocketServer = new WebSocketServer({
 	'server':my_HTTPServer
 });
 
 // global variable for out browser's socket connection
 var browserSocket = undefined;
-
 
 // event fires when the browser connects to this server
 my_WebSocketServer.on('connection',function(newSocket){
@@ -58,28 +65,43 @@ my_WebSocketServer.on('connection',function(newSocket){
 var serialport = require('serialport');
 var Port = serialport.SerialPort;
 
-var portName_yun = '/dev/ttyATH0'; // for my YUN (the same for everyone)
-var portName_laptop = '/dev/tty.usbmodem1411'; // for my laptop (different for everyone)
+//var myPortName = '/dev/ttyATH0'; // for my YUN (the same for everyone)
+var myPortName = '/dev/tty.usbmodem1411'; // for my laptop (different for everyone)
 
-var myPort = new Port(portName_yun,{
-	'baudrate':115200,
-	'parser': serialport.parsers.readline('\r\n') // arduino ends messages with .println()
-});
+var foundMyPort = false; // boolean to test if we found our port
 
-// this event fires when the serial port opens
-myPort.on('open',function(){
-	console.log('serial port is OPEN');
-});
-
-// this event fires when we get data from the arduino
-myPort.on('data',function(data){
-	if(browserSocket){
-		browserSocket.send(data);
-	}
-	else{
-		console.log(data);
+serialport.list(function(error,ports){
+	for(var i=0;i<ports.length;i++){
+		console.log(ports[i].comName);
+		if(ports[i].comName===myPortName){
+			foundMyPort = true;
+			break;
+		}
 	}
 });
+
+if(foundMyPort===true){
+
+	var myPort = new Port(myPortName,{
+		'baudrate':115200,
+		'parser': serialport.parsers.readline('\r\n') // arduino ends messages with .println()
+	});
+
+	// this event fires when the serial port opens
+	myPort.on('open',function(){
+		console.log('serial port is OPEN');
+	});
+
+	// this event fires when we get data from the arduino
+	myPort.on('data',function(data){
+		if(browserSocket){
+			browserSocket.send(data);
+		}
+		else{
+			console.log(data);
+		}
+	});
+}
 
 //////////////
 //////////////
