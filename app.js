@@ -2,6 +2,18 @@
 //////////////
 //////////////
 
+/*
+
+The following NodeJS script can be run
+on a Lapatop with an Arduino connected serially,
+or it can be run on a Yun with Bridge disabled.
+
+*/
+
+//////////////
+//////////////
+//////////////
+
 // our super simple HTTP server, using native NodeJS modules
 var http = require('http');
 var fs = require('fs');
@@ -49,7 +61,9 @@ my_WebSocketServer.on('connection',function(newSocket){
 
 	// this event fires when a message from the browser arrives
 	browserSocket.on('message',function(msg){
-		myPort.write(msg);
+		if(myPort && myPort.isOpen){
+			myPort.write(msg);
+		}
 	});
 
 	// this event fires when the connection is closed
@@ -66,37 +80,43 @@ var serialport = require('serialport');
 var Port = serialport.SerialPort;
 
 //var myPortName = '/dev/ttyATH0'; // for my YUN (the same for everyone)
-var myPortName = '/dev/tty.usbmodem1411'; // for my laptop (different for everyone)
+var myPortName = '/dev/cu.usbmodem1421'; // for my laptop (different for everyone)
 
-var foundMyPort = false; // boolean to test if we found our port
+var myPort = undefined;
 
 serialport.list(function(error,ports){
 	for(var i=0;i<ports.length;i++){
 		console.log(ports[i].comName);
 		if(ports[i].comName===myPortName){
-			foundMyPort = true;
+			openSerialPort();
 			break;
 		}
 	}
 });
 
-if(foundMyPort===true){
+// if we found our port, open it and use it
+function openSerialPort(){
 
-	var myPort = new Port(myPortName,{
-		'baudrate':115200,
+	// create the port
+	myPort = new Port(myPortName,{
+		'baudrate':115200, // the Arduino's baud rate
 		'parser': serialport.parsers.readline('\r\n') // arduino ends messages with .println()
 	});
 
 	// this event fires when the serial port opens
 	myPort.on('open',function(){
 		console.log('serial port is OPEN');
+		myPort.isOpen = true; // our own little variable, to tell us the port opened
 	});
 
 	// this event fires when we get data from the arduino
 	myPort.on('data',function(data){
+
+		// if we have a socket connection, send the message
 		if(browserSocket){
 			browserSocket.send(data);
 		}
+		// else, just print it out so we can see it
 		else{
 			console.log(data);
 		}

@@ -23,6 +23,8 @@ Inside app.js, be sure serialport is using the corrent port name to connect to. 
 	npm install
 	node app.js
 
+Upen and edit 'app.js' to change the 'myPortName' variable to be whatever port your Arduino is currently connected to;
+
 #####On the Yun
 
 Be sure have installed the following modules using the Yun's package manager:
@@ -30,5 +32,7 @@ Be sure have installed the following modules using the Yun's package manager:
 	opkg update
 	opkg install node-ws
 	opkg install node-serialport
+
+Upen and edit 'app.js' to change the 'myPortName' variable to be "/dev/ttyATH0";
 
 When running, place only app.js and index.html on the Yun. All other files are not needed, since node-modules are installed globally on the Yun.
